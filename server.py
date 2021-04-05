@@ -73,5 +73,6 @@ def send_file(filename):
     
 if __name__ == "__main__":
     # Waitress host for production
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+   # from waitress import serve
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
