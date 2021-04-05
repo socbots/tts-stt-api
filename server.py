@@ -59,7 +59,7 @@ cache = Cache(app)
 def tts():
 
     TDIR = os.path.dirname(__file__)
-
+    print(TDIR)
     filename = "output.mp3"
     ReqString = request.args.get('ReqString')
     
