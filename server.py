@@ -44,8 +44,10 @@ config = {
     "CACHE_TYPE": "simple",  # Flask-Caching related configs
     "CACHE_DEFAULT_TIMEOUT": 86400
 }
+
+
 # Create server
-app = Flask(__name__, static_folder='static')  
+app = Flask(__name__)  
 # NO CORS, BAD CORS!!!
 CORS(app)
 # Add conf file to app
@@ -56,6 +58,8 @@ cache = Cache(app)
 
 def tts():
 
+    TDIR = os.path.dirname(__file__)
+
     filename = "output.mp3"
     ReqString = request.args.get('ReqString')
     
@@ -64,15 +68,10 @@ def tts():
         with open(filename, "wb") as out:
         # Write the response to the output file.
             out.write(response.audio_content)
-        return send_from_directory("static",filename, as_attachment=True)
-
-        #return response.audio_content
-
-def send_file(filename):  
-    return send_from_directory(app.static_folder, filename)
+        path = os.path.join(MYDIR + "/" + filename) 
+        return send_from_directory(TDIR, path, as_attachment=True)
     
 if __name__ == "__main__":
     # Waitress host for production
-   # from waitress import serve
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
