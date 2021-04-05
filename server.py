@@ -68,7 +68,7 @@ def tts():
         with open(filename, "wb") as out:
         # Write the response to the output file.
             out.write(response.audio_content)
-        path = os.path.join(MYDIR + "/" + filename) 
+        path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
     
 if __name__ == "__main__":
