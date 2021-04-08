@@ -26,7 +26,7 @@ def CreateTTS(x):
     # Select the type of audio file you want returned
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.MP3,
-        pitch = 0.5,
+        pitch = -5,
         speakingRate = 0.5
     )
 
