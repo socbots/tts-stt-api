@@ -25,7 +25,9 @@ def CreateTTS(x):
 
     # Select the type of audio file you want returned
     audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3
+        audio_encoding=texttospeech.AudioEncoding.MP3,
+        pitch = 0.5,
+        speakingRate = 0.5
     )
 
     # Perform the text-to-speech request on the text input with the selected
@@ -35,9 +37,7 @@ def CreateTTS(x):
     )
 
     return response
-    # The response's audio_content is binary.
 
-#CreateTTS("test string")
 
 config = {
     "DEBUG": True,          # some Flask specific configs
