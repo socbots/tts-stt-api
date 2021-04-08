@@ -13,7 +13,7 @@ from google.cloud import texttospeech
 client = texttospeech.TextToSpeechClient()
 
 
-def CreateTTS(x):
+def CreateTTS(x, r, p):
     # Set the text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(text=x)
 
@@ -25,8 +25,8 @@ def CreateTTS(x):
 
     # Select the type of audio file you want returned
     audio_config = texttospeech.AudioConfig(
-        pitch=-10,
-        speaking_rate=0.5,
+        pitch=p,
+        speaking_rate=r,
         audio_encoding=texttospeech.AudioEncoding.MP3
     )
 
@@ -62,9 +62,11 @@ def tts():
     print(TDIR)
     filename = "output.mp3"
     ReqString = request.args.get('ReqString')
-    
+    rate = float(request.args.get('rate'))
+    pitch = float(request.args.get('pitch'))
+
     if(ReqString):
-        response = CreateTTS(ReqString)
+        response = CreateTTS(ReqString, rate, pitch)
         with open(filename, "wb") as out:
         # Write the response to the output file.
             out.write(response.audio_content)
