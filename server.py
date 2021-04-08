@@ -5,7 +5,7 @@ from flask import Flask, send_from_directory, request, make_response
 from flask_cors import CORS
 from flask_caching import Cache
 import flask
-
+import urllib.parse
 from google.cloud import texttospeech
 
 
@@ -64,6 +64,7 @@ def tts():
     rate = request.args.get('rate') or 1
     pitch = request.args.get('pitch') or -10
     hertz = request.args.get('hertz') or 16000
+    ReqString = urllib.parse.unquote(ReqString)
     hertz = int(hertz)
     rate = float(rate)
     pitch = float(pitch)
