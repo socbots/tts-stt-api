@@ -59,11 +59,10 @@ cache = Cache(app)
 def tts():
 
     TDIR = os.path.dirname(__file__)
-    print(TDIR)
     filename = "output.mp3"
     ReqString = request.args.get('ReqString')
-    rate = float(request.args.get('rate'))
-    pitch = float(request.args.get('pitch'))
+    rate = float(request.args.get('rate')) || 1
+    pitch = float(request.args.get('pitch')) || -10
 
     if(ReqString):
         response = CreateTTS(ReqString, rate, pitch)
