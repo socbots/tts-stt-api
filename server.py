@@ -13,7 +13,7 @@ from google.cloud import texttospeech
 client = texttospeech.TextToSpeechClient()
 
 
-def CreateTTS(x, r, p):
+def CreateTTS(x, r, p, hz):
     # Set the text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(text=x)
 
@@ -27,6 +27,7 @@ def CreateTTS(x, r, p):
     audio_config = texttospeech.AudioConfig(
         pitch=p,
         speaking_rate=r,
+        sample_rate_hertz=hz,
         audio_encoding=texttospeech.AudioEncoding.MP3
     )
 
@@ -37,7 +38,6 @@ def CreateTTS(x, r, p):
     )
 
     return response
-
 
 config = {
     "DEBUG": True,          # some Flask specific configs
@@ -63,11 +63,13 @@ def tts():
     ReqString = request.args.get('ReqString')
     rate = request.args.get('rate') or 1
     pitch = request.args.get('pitch') or -10
+    hertz = request.args.get('hertz') or 16000
+    hertz = int(hertz)
     rate = float(rate)
     pitch = float(pitch)
 
     if(ReqString):
-        response = CreateTTS(ReqString, rate, pitch)
+        response = CreateTTS(ReqString, rate, pitch, hertz)
         with open(filename, "wb") as out:
         # Write the response to the output file.
             out.write(response.audio_content)
