@@ -61,8 +61,10 @@ def tts():
     TDIR = os.path.dirname(__file__)
     filename = "output.mp3"
     ReqString = request.args.get('ReqString')
-    rate = float(request.args.get('rate')) or 1
-    pitch = float(request.args.get('pitch')) or -10
+    rate = request.args.get('rate') or 1
+    pitch = request.args.get('pitch') or -10
+    rate = float(rate)
+    pitch = float(pitch)
 
     if(ReqString):
         response = CreateTTS(ReqString, rate, pitch)
