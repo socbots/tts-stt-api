@@ -69,6 +69,7 @@ def tts():
     rate = float(rate)
     pitch = float(pitch)
 
+    print(ReqString)
     if(ReqString):
         response = CreateTTS(ReqString, rate, pitch, hertz)
         with open(filename, "wb") as out:
