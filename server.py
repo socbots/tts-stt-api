@@ -15,7 +15,7 @@ client = texttospeech.TextToSpeechClient()
 
 def CreateTTS(x, r, p, hz):
     # Set the text input to be synthesized
-    synthesis_input = texttospeech.SynthesisInput(text=x)
+    synthesis_input = texttospeech.SynthesisInput(ssml=x)
 
     # Build the voice request, select the language code ("en-US") and the ssml
     # voice gender ("neutral")
