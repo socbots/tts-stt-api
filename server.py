@@ -13,15 +13,25 @@ import json
 client = texttospeech.TextToSpeechClient()
 
 
-def CreateTTS(x, r, p, hz):
+def CreateTTS(x, r, p, hz,lang, gender):
     # Set the text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(ssml=x)
-
+    gen = None
+    if gender == "FEMALE":
+        gen =  texttospeech.SsmlVoiceGender.FEMALE
+    elif gender == "MALE":
+        gen =  texttospeech.SsmlVoiceGender.MALE
+    else:
+        gen = gen =  texttospeech.SsmlVoiceGender.NEUTRAL
     # Build the voice request, select the language code ("en-US") and the ssml
     # voice gender ("neutral")
     voice = texttospeech.VoiceSelectionParams(
-        language_code="sv-SE", ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+        language_code=lang, ssml_gender=gen
     )
+
+    # Build the voice request, select the language code ("en-US") and the ssml
+    # voice gender ("neutral")
+ 
 
     # Select the type of audio file you want returned
     audio_config = texttospeech.AudioConfig(
@@ -66,6 +76,8 @@ def tts():
     rate = request.args.get('rate') or 1
     pitch = request.args.get('pitch') or -10
     hertz = request.args.get('hertz') or 16000
+    lang = request.args.get('lang') or "se-SV"
+    gender = request.args.get('gender') or "FEMALE"
     ReqString = urllib.parse.unquote(ReqString)
     hertz = int(hertz)
     rate = float(rate)
@@ -73,7 +85,7 @@ def tts():
 
     print(ReqString)
     if(ReqString):
-        response = CreateTTS(ReqString, rate, pitch, hertz)
+        response = CreateTTS(ReqString, rate, pitch, hertz, lang, gender)
         with open(filename, "wb") as out:
         # Write the response to the output file.
             out.write(response.audio_content)
