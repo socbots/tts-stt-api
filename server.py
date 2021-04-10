@@ -7,7 +7,7 @@ from flask_caching import Cache
 import flask
 import urllib.parse
 from google.cloud import texttospeech
-
+import json
 
 # Instantiates a client
 client = texttospeech.TextToSpeechClient()
@@ -46,6 +46,8 @@ config = {
 }
 
 
+
+
 # Create server
 app = Flask(__name__)  
 # NO CORS, BAD CORS!!!
@@ -78,6 +80,43 @@ def tts():
         path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
     
+
+
+@app.route("/listv")
+
+def list_voices():
+    """Lists the available voices."""
+    from google.cloud import texttospeech
+
+    client = texttospeech.TextToSpeechClient()
+
+    # Performs the list voices request
+    voices = client.list_voices()
+    voicelist = {}
+    for voice in voices.voices:
+
+        # Display the voice's name. Example: tpc-vocoded
+        print(f"Name: {voice.name}")
+        d = ""
+        # Display the supported language codes for this voice. Example: "en-US"
+        for language_code in voice.language_codes:
+            d = language_code
+            print(f"Supported language: {language_code}")
+
+        lang = {voice.name : {"langCode" : d, "gender": voice.ssml_gender, "sammple": voice.natural_sample_rate_hertz}}
+
+        ssml_gender = texttospeech.SsmlVoiceGender(voice.ssml_gender)
+
+        # Display the SSML Voice Gender
+        print(f"SSML Voice Gender: {ssml_gender.name}")
+
+        # Display the natural sample rate hertz for this voice. Example: 24000
+        print(f"Natural Sample Rate Hertz: {voice.natural_sample_rate_hertz}\n")
+        voicelist.update(lang)
+        print(voice)
+    return json.dumps(voicelist)
+
+
 if __name__ == "__main__":
     # Waitress host for production
     from waitress import serve
