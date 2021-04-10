@@ -12,26 +12,24 @@ import json
 # Instantiates a client
 client = texttospeech.TextToSpeechClient()
 
-
 def CreateTTS(x, r, p, hz,lang, gender):
     # Set the text input to be synthesized
     synthesis_input = texttospeech.SynthesisInput(ssml=x)
     gen = None
+    
     if gender == "FEMALE":
         gen =  texttospeech.SsmlVoiceGender.FEMALE
     elif gender == "MALE":
         gen =  texttospeech.SsmlVoiceGender.MALE
     else:
         gen = gen =  texttospeech.SsmlVoiceGender.NEUTRAL
+    
     # Build the voice request, select the language code ("en-US") and the ssml
     # voice gender ("neutral")
+
     voice = texttospeech.VoiceSelectionParams(
         language_code=lang, ssml_gender=gen
     )
-
-    # Build the voice request, select the language code ("en-US") and the ssml
-    # voice gender ("neutral")
- 
 
     # Select the type of audio file you want returned
     audio_config = texttospeech.AudioConfig(
@@ -54,9 +52,6 @@ config = {
     "CACHE_TYPE": "simple",  # Flask-Caching related configs
     "CACHE_DEFAULT_TIMEOUT": 86400
 }
-
-
-
 
 # Create server
 app = Flask(__name__)  
@@ -91,8 +86,6 @@ def tts():
             out.write(response.audio_content)
         path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
-    
-
 
 @app.route("/listv")
 
@@ -127,7 +120,6 @@ def list_voices():
         voicelist.update(lang)
         print(voice)
     return json.dumps(voicelist)
-
 
 if __name__ == "__main__":
     # Waitress host for production
