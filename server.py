@@ -18,11 +18,11 @@ def CreateTTS(x, r, p, hz,lang, gender):
     gen = None
     
     if gender == "FEMALE":
-        gen =  texttospeech.SsmlVoiceGender.FEMALE
+        gen = texttospeech.SsmlVoiceGender.FEMALE
     elif gender == "MALE":
-        gen =  texttospeech.SsmlVoiceGender.MALE
+        gen = texttospeech.SsmlVoiceGender.MALE
     else:
-        gen = gen =  texttospeech.SsmlVoiceGender.NEUTRAL
+        gen = texttospeech.SsmlVoiceGender.NEUTRAL
     
     # Build the voice request, select the language code ("en-US") and the ssml
     # voice gender ("neutral")
