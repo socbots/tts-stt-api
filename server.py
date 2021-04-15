@@ -17,9 +17,9 @@ def CreateTTS(x, r, p, hz,lang, gender):
     synthesis_input = texttospeech.SynthesisInput(ssml=x)
     gen = None
     
-    if gender == "FEMALE":
+    if(gender == "FEMALE"):
         gen = texttospeech.SsmlVoiceGender.FEMALE
-    elif gender == "MALE":
+    elif(gender == "MALE"):
         gen = texttospeech.SsmlVoiceGender.MALE
     else:
         gen = texttospeech.SsmlVoiceGender.NEUTRAL
@@ -74,6 +74,11 @@ def tts():
     lang = request.args.get('lang') or "se-SV"
     gender = request.args.get('gender') or "FEMALE"
     ReqString = urllib.parse.unquote(ReqString)
+    print("rate: " + str(rate))
+    print("pitch: " + str(pitch))
+    print("hertz: " + str(hertz))
+    print("lang: " + str(lang))
+    print("gender: " + str(gender))
     hertz = int(hertz)
     rate = float(rate)
     pitch = float(pitch)
