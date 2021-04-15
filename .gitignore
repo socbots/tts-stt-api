@@ -94,6 +94,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+AlfTTS/
 
 # Spyder project settings
 .spyderproject
