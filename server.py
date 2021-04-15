@@ -78,12 +78,12 @@ def tts():
     rate = float(rate)
     pitch = float(pitch)
     lang = str(lang)
-    print("String: " + ReqString)
-    print("Speechrate: " + rate)
-    print("Hertz: " + hertz)
-    print("Pitch: " + pitch)
-    print("Lang: " + lang)
-    print("Gender: " + gender)
+    print("String: " + str(ReqString))
+    print("Speechrate: " + str(rate))
+    print("Hertz: " + str(hertz))
+    print("Pitch: " + str(pitch))
+    print("Lang: " + str(lang))
+    print("Gender: " + str(gender))
     
     if(ReqString):
         response = CreateTTS(ReqString, rate, pitch, hertz, lang, gender)
