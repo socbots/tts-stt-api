@@ -71,19 +71,20 @@ def tts():
     rate = request.args.get('rate') or 1
     pitch = request.args.get('pitch') or -10
     hertz = request.args.get('hertz') or 16000
-    lang = request.args.get('lang') or "se-SV"
+    lang = request.args.get('lang') or "sv-SE"
     gender = request.args.get('gender') or "FEMALE"
-    ReqString = urllib.parse.unquote(ReqString)
-    print("rate: " + str(rate))
-    print("pitch: " + str(pitch))
-    print("hertz: " + str(hertz))
-    print("lang: " + str(lang))
-    print("gender: " + str(gender))
+    ReqString = urllib.parse.unquote(str(ReqString))
     hertz = int(hertz)
     rate = float(rate)
     pitch = float(pitch)
-
-    print(ReqString)
+    lang = str(lang)
+    print("String: " + ReqString)
+    print("Speechrate: " + rate)
+    print("Hertz: " + hertz)
+    print("Pitch: " + pitch)
+    print("Lang: " + lang)
+    print("Gender: " + gender)
+    
     if(ReqString):
         response = CreateTTS(ReqString, rate, pitch, hertz, lang, gender)
         with open(filename, "wb") as out:
