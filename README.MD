@@ -1,5 +1,7 @@
 ## API written in python using flask and waitress for Google Text-To-Speech synthesis
 
+A testing site for this API has been setup on https://www.dinmamma.fi/alftts/
+
 ## Requirements
 Install requirements using 
 
@@ -7,7 +9,7 @@ Install requirements using
 
 Set google auth key environment variable using this guide
 
-`https://cloud.google.com/docs/authentication/getting-started`
+https://cloud.google.com/docs/authentication/getting-started
 
 Run the server
 
