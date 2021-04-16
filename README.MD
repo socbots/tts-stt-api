@@ -1,10 +1,17 @@
-# API written in python using flask and waitress for Google Text-To-Speech synthesis
+## API written in python using flask and waitress for Google Text-To-Speech synthesis
 
 ### Endpoints
 
-#### /tts
+> Example
 
-##### Arguments
+> for testing on localhost
+`localhost:5000/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
+
+> Current Production env 
+
+`http://alf-tts-api.herokuapp.com/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
+
+##### /tts Arguments
 
 > ReqString (Required, type = String)
 
