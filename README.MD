@@ -1,15 +1,29 @@
 ## API written in python using flask and waitress for Google Text-To-Speech synthesis
 
-### Endpoints
+## Requirements
+Install requirements using 
 
-> Example
+`pip install -r requirements.txt`
+
+Set google auth key environment variable using this guide
+
+`https://cloud.google.com/docs/authentication/getting-started`
+
+Run the server
+
+`python server.py`
+
 
 > for testing on localhost
+
 `localhost:5000/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
 
 > Current Production env 
 
 `http://alf-tts-api.herokuapp.com/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
+
+
+### Endpoints
 
 ##### /tts Arguments
 
