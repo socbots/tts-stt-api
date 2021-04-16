@@ -27,7 +27,7 @@ Run the server
 
 `http://alf-tts-api.herokuapp.com/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
 
-##### /tts Arguments
+## Arguments /tts 
 
 > ReqString (Required, type = String)
 
