@@ -16,6 +16,9 @@ Run the server
 `python server.py`
 
 
+
+## Endpoints
+
 > for testing on localhost
 
 `localhost:5000/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
@@ -23,9 +26,6 @@ Run the server
 > Current Production env 
 
 `http://alf-tts-api.herokuapp.com/tts?ReqString="This is a test"&rate=1&pitch=0&hertz=16000&lang=sv-SE`
-
-
-### Endpoints
 
 ##### /tts Arguments
 
