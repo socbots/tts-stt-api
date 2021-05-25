@@ -124,30 +124,24 @@ def sst():
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
-    #reqAudio = request.args.get('AudioData')
-    #content = requests.post('AudioData')
-    #print(content)
+            content = file
 
-    print(request.form['foo']) # should display 'bar'
-    return 'Received !' # response to your request.
-    #client = speech.SpeechClient()
+    #print(request.form['foo']) # should display 'bar'
+    #return 'Received !' # response to your request.
+            client = speech.SpeechClient()
 
-    #audio = speech.RecognitionAudio(content=content)
+            audio = speech.RecognitionAudio(content=content)
 
-    #config = speech.RecognitionConfig(
-    #encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-    #sample_rate_hertz=16000,
-    #language_code="sv-SE",
-    #)
-    #
-    #response = client.recognize(config=config, audio=audio)
+            config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE")
+    
+            response = client.recognize(config=config, audio=audio)
 
 
-    #for result in response.results:
-    #    print("Transcript: {}".format(result.alternatives[0].transcript))
-    #return(content)
+            for result in response.results:
+                print("Transcript: {}".format(result.alternatives[0].transcript))
+                
+            return(response.results)
 
 
 
