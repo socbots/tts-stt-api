@@ -123,8 +123,8 @@ def sst():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            content = file
+            #filename = secure_filename(file.filename)
+            content = file.read()
 
     #print(request.form['foo']) # should display 'bar'
     #return 'Received !' # response to your request.
