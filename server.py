@@ -64,7 +64,6 @@ app.config.from_mapping(config)
 # Create cache
 cache = Cache(app)
 
-
 @app.route("/tts")
 
 def tts():
@@ -97,13 +96,16 @@ def tts():
         path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
 
-@app.route("/stt")
+@app.route("/stt", methods=['POST'])
 
 def sst():
 
     #reqAudio = request.args.get('AudioData')
-    content = request.args.get('AudioData')
+    content = requests.post('AudioData')
     print(content)
+
+    print(request.form['foo']) # should display 'bar'
+    return 'Received !' # response to your request.
     #client = speech.SpeechClient()
 
     #audio = speech.RecognitionAudio(content=content)
@@ -119,7 +121,7 @@ def sst():
 
     #for result in response.results:
     #    print("Transcript: {}".format(result.alternatives[0].transcript))
-    return(content)
+    #return(content)
 
 
 
@@ -148,7 +150,7 @@ def list_voices():
 
         ssml_gender = texttospeech.SsmlVoiceGender(voice.ssml_gender)
 
-        # Display the SSML Voice Gender
+        # Display the SSML Voice Gendera
         print(f"SSML Voice Gender: {ssml_gender.name}")
 
         # Display the natural sample rate hertz for this voice. Example: 24000
