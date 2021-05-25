@@ -116,7 +116,7 @@ def sst():
             flash('No file part')
             return redirect(request.url)
         
-        file = request.files('file')
+        file = request.files['file']
 
         if file.filename == '':
             flash('No selected file')
