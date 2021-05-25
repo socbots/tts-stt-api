@@ -7,6 +7,7 @@ from flask_caching import Cache
 import flask
 import urllib.parse
 from google.cloud import texttospeech
+from google.cloud import speech
 import json
 
 # Instantiates a client
@@ -92,6 +93,30 @@ def tts():
             out.write(response.audio_content)
         path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
+
+@app.route("/stt")
+
+def sst():
+
+    reqAudio = request.args.get('AudioData')
+    content = reqAudio.read()
+    client = speech.SpeechClient()
+
+    audio = speech.RecognitionAudio(content=content)
+
+    config = speech.RecognitionConfig(
+    encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+    sample_rate_hertz=16000,
+    language_code="sv-SE",
+    )
+    
+    response = client.recognize(config=config, audio=audio)
+
+
+    for result in response.results:
+        print("Transcript: {}".format(result.alternatives[0].transcript))
+
+
 
 @app.route("/listv")
 
