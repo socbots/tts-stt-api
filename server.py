@@ -1,13 +1,14 @@
 #%%
 import requests
 import os
-from flask import Flask, send_from_directory, request, make_response
+from flask import Flask, send_from_directory, request, make_response, redirect, url_for
 from flask_cors import CORS
 from flask_caching import Cache
 import flask
 import urllib.parse
 from google.cloud import speech
 from google.cloud import texttospeech
+from werkzeug.utils import secure_filename
 
 import json
 
@@ -52,7 +53,8 @@ def CreateTTS(x, r, p, hz,lang, gender):
 config = {
     "DEBUG": True,          # some Flask specific configs
     "CACHE_TYPE": "simple",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 86400
+    "CACHE_DEFAULT_TIMEOUT": 86400,
+    "UPLOAD_FOLDER": '/'
 }
 
 # Create server
@@ -63,6 +65,12 @@ CORS(app)
 app.config.from_mapping(config)
 # Create cache
 cache = Cache(app)
+ALLOWED_EXTENSIONS = set(['mp3', 'wav'])
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 @app.route("/tts")
 
@@ -96,13 +104,28 @@ def tts():
         path = os.path.join(TDIR + filename) 
         return send_from_directory(TDIR, path, as_attachment=True)
 
-@app.route("/stt", methods=['POST'])
+
+@app.route("/stt", methods=['GET','POST'])
+
 
 def sst():
 
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            print('No file part')
+            return "No File"
+        file = request.files('AudioData')
+
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            print(filename)
     #reqAudio = request.args.get('AudioData')
-    content = requests.post('AudioData')
-    print(content)
+    #content = requests.post('AudioData')
+    #print(content)
 
     print(request.form['foo']) # should display 'bar'
     return 'Received !' # response to your request.
