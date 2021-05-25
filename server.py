@@ -101,8 +101,8 @@ def tts():
 
 def sst():
 
-    reqAudio = request.args.get('AudioData')
-    content = reqAudio.read()
+    #reqAudio = request.args.get('AudioData')
+    content = request.args.get('AudioData')
     client = speech.SpeechClient()
 
     audio = speech.RecognitionAudio(content=content)
