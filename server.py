@@ -115,7 +115,7 @@ def sst():
         if 'file' not in request.files:
             print('No file part')
             return "No File"
-        file = request.files('AudioData')
+        file = request.files('file')
 
         if file.filename == '':
             print('No selected file')
