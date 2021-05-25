@@ -6,8 +6,9 @@ from flask_cors import CORS
 from flask_caching import Cache
 import flask
 import urllib.parse
-from google.cloud import texttospeech
 from google.cloud import speech
+from google.cloud import texttospeech
+
 import json
 
 # Instantiates a client
@@ -62,6 +63,8 @@ CORS(app)
 app.config.from_mapping(config)
 # Create cache
 cache = Cache(app)
+
+
 @app.route("/tts")
 
 def tts():
