@@ -110,7 +110,7 @@ def tts():
 
 def sst():
 
-    resp = None
+    resp = {}
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -137,8 +137,9 @@ def sst():
     
             response = client.recognize(config=config, audio=audio)
 
-            resp = response.results
+            
             for result in response.results:
+                resp.update(result)
                 print("Transcript: {}".format(result.alternatives[0].transcript))
                 
     return(resp)
