@@ -1,7 +1,7 @@
 #%%
 import requests
 import os
-from flask import Flask, send_from_directory, request, make_response, redirect, url_for
+from flask import flash, Flask, send_from_directory, request, make_response, redirect, url_for
 from flask_cors import CORS
 from flask_caching import Cache
 import flask
@@ -113,16 +113,19 @@ def sst():
 
     if request.method == 'POST':
         if 'file' not in request.files:
-            print('No file part')
-            return "No File"
+            flash('No file part')
+            return redirect(request.url)
+        
         file = request.files('file')
 
         if file.filename == '':
-            print('No selected file')
+            flash('No selected file')
             return redirect(request.url)
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            print(filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file', filename=filename))
     #reqAudio = request.args.get('AudioData')
     #content = requests.post('AudioData')
     #print(content)
