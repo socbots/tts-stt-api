@@ -103,21 +103,22 @@ def sst():
 
     #reqAudio = request.args.get('AudioData')
     content = request.args.get('AudioData')
-    client = speech.SpeechClient()
+    print(content)
+   #client = speech.SpeechClient()
 
-    audio = speech.RecognitionAudio(content=content)
+   #audio = speech.RecognitionAudio(content=content)
 
-    config = speech.RecognitionConfig(
-    encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-    sample_rate_hertz=16000,
-    language_code="sv-SE",
-    )
-    
-    response = client.recognize(config=config, audio=audio)
+   #config = speech.RecognitionConfig(
+   #encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+   #sample_rate_hertz=16000,
+   #language_code="sv-SE",
+   #)
+   #
+   #response = client.recognize(config=config, audio=audio)
 
 
-    for result in response.results:
-        print("Transcript: {}".format(result.alternatives[0].transcript))
+   #for result in response.results:
+   #    print("Transcript: {}".format(result.alternatives[0].transcript))
 
 
 
