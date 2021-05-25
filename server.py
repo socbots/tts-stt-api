@@ -139,7 +139,7 @@ def sst():
 
             
             for result in response.results:
-                resp.update(result)
+                resp.update(result.alternatives[0].transcript)
                 print("Transcript: {}".format(result.alternatives[0].transcript))
                 
     return(resp)
