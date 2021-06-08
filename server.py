@@ -133,7 +133,7 @@ def sst():
             audio = speech.RecognitionAudio(content=content)
 
             config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS, language_code="sv-SE")
+            encoding=speech.RecognitionConfig.AudioEncoding.OGG_OPUS, sample_rate_hertz=48000, language_code="sv-SE")
     
             response = client.recognize(config=config, audio=audio)
 
