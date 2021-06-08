@@ -65,7 +65,7 @@ CORS(app)
 app.config.from_mapping(config)
 # Create cache
 cache = Cache(app)
-ALLOWED_EXTENSIONS = set(['mp3', 'wav'])
+ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'ogg'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
