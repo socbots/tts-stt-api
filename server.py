@@ -127,7 +127,6 @@ def sst():
 
         if file and allowed_file(file.filename):
             
-            print('testing')
             #content = file.read()
 
             # Read and covert to wav
@@ -149,18 +148,12 @@ def sst():
             content = wav.read()
 
 
-            print('file read')
             client = speech.SpeechClient()
             audio = speech.RecognitionAudio(content=content)
-            print('client and audio')
-            #config = speech.RecognitionConfig(
-            #encoding=speech.RecognitionConfig.AudioEncoding.OGG_OPUS, sample_rate_hertz=48000, language_code="sv-SE", audio_channel_count=2)
             config = speech.RecognitionConfig(
             encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE", audio_channel_count=2)
-            print('config')
 
             response = client.recognize(config=config, audio=audio)
-            print("response")
             for result in response.results:
                 resp = result.alternatives[0].transcript
                 print("Transcript: {}".format(result.alternatives[0].transcript))
