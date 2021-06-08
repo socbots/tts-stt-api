@@ -9,10 +9,7 @@ import urllib.parse
 from google.cloud import speech
 from google.cloud import texttospeech
 from werkzeug.utils import secure_filename
-from moviepy.editor import *
-
 import av
-
 import json
 
 # Instantiates a client
