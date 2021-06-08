@@ -9,6 +9,9 @@ import urllib.parse
 from google.cloud import speech
 from google.cloud import texttospeech
 from werkzeug.utils import secure_filename
+from moviepy.editor import *
+
+import av
 
 import json
 
@@ -65,7 +68,7 @@ CORS(app)
 app.config.from_mapping(config)
 # Create cache
 cache = Cache(app)
-ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'ogg'])
+ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'ogg','webm'])
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -123,18 +126,41 @@ def sst():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            content = file.read()
-
-            client = speech.SpeechClient()
-
-            audio = speech.RecognitionAudio(content=content)
-
-            config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE")
-    
-            response = client.recognize(config=config, audio=audio)
-
             
+            print('testing')
+            #content = file.read()
+
+            # Read and covert to wav
+            inp = av.open(file, 'r')
+            out = av.open('file.wav', 'w')
+            ostream = out.add_stream("pcm_s16le", 16000)
+
+            for frame in inp.decode(audio=0):
+                frame.pts = None
+
+                for p in ostream.encode(frame):
+                    out.mux(p)
+
+            for p in ostream.encode(None):
+                out.mux(p)
+
+            out.close()
+            wav = open("file.wav", mode="r+b")
+            content = wav.read()
+
+
+            print('file read')
+            client = speech.SpeechClient()
+            audio = speech.RecognitionAudio(content=content)
+            print('client and audio')
+            #config = speech.RecognitionConfig(
+            #encoding=speech.RecognitionConfig.AudioEncoding.OGG_OPUS, sample_rate_hertz=48000, language_code="sv-SE", audio_channel_count=2)
+            config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE", audio_channel_count=2)
+            print('config')
+
+            response = client.recognize(config=config, audio=audio)
+            print("response")
             for result in response.results:
                 resp = result.alternatives[0].transcript
                 print("Transcript: {}".format(result.alternatives[0].transcript))
