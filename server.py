@@ -123,17 +123,14 @@ def sst():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
-            #filename = secure_filename(file.filename)
             content = file.read()
 
-    #print(request.form['foo']) # should display 'bar'
-    #return 'Received !' # response to your request.
             client = speech.SpeechClient()
 
             audio = speech.RecognitionAudio(content=content)
 
             config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.OGG_OPUS, sample_rate_hertz=48000, language_code="sv-SE")
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE")
     
             response = client.recognize(config=config, audio=audio)
 
