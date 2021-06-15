@@ -106,14 +106,12 @@ def tts():
 
 
 @app.route("/stt", methods=['GET','POST'])
-
-
-def sst():
+def stt():
 
     resp = ""
     if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file part')
+        if 'file' not in request.files or 'grammar' not in request.form:
+            flash('No file part or grammar')
             return redirect(request.url)
         
         file = request.files['file']
@@ -144,11 +142,24 @@ def sst():
             wav = open("file.wav", mode="r+b")
             content = wav.read()
 
+            # "Provides "hints" to the speech recognizer to favor specific words and phrases in the results."
+            grammar = request.form["grammar"].split(",")
+            speech_contexts = [
+                {
+                    "phrases": grammar
+                }
+            ]
+
 
             client = speech.SpeechClient()
             audio = speech.RecognitionAudio(content=content)
             config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="sv-SE", audio_channel_count=2)
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=16000,
+            language_code="sv-SE",
+            audio_channel_count=2,
+            speechContexts=speech_contexts
+            )
 
             response = client.recognize(config=config, audio=audio)
             for result in response.results:
