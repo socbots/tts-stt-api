@@ -144,11 +144,11 @@ def stt():
 
             # "Provides "hints" to the speech recognizer to favor specific words and phrases in the results."
             grammar = request.form["grammar"].split(",")
+             
             speech_contexts = [
-                {
-                    "phrases": grammar
-                }
+                    speech.SpeechContext(phrases=grammar)
             ]
+
 
 
             client = speech.SpeechClient()
@@ -158,7 +158,7 @@ def stt():
             sample_rate_hertz=16000,
             language_code="sv-SE",
             audio_channel_count=2,
-            speechContexts=speech_contexts
+            speech_contexts=speech_contexts
             )
 
             response = client.recognize(config=config, audio=audio)
