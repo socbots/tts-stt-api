@@ -168,7 +168,57 @@ def stt():
                 
     return(resp)
 
+@app.route("/engstt", methods=['GET','POST'])
 
+
+def engsst():
+
+    resp = ""
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            
+            #content = file.read()
+
+            # Read and covert to wav
+            inp = av.open(file, 'r')
+            out = av.open('file.wav', 'w')
+            ostream = out.add_stream("pcm_s16le", 16000)
+
+            for frame in inp.decode(audio=0):
+                frame.pts = None
+
+                for p in ostream.encode(frame):
+                    out.mux(p)
+
+            for p in ostream.encode(None):
+                out.mux(p)
+
+            out.close()
+            wav = open("file.wav", mode="r+b")
+            content = wav.read()
+
+
+            client = speech.SpeechClient()
+            audio = speech.RecognitionAudio(content=content)
+            config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16, sample_rate_hertz=16000, language_code="en-US", audio_channel_count=2)
+
+            response = client.recognize(config=config, audio=audio)
+            for result in response.results:
+                resp = result.alternatives[0].transcript
+                print("Transcript: {}".format(result.alternatives[0].transcript))
+                
+    return(resp)
 
 @app.route("/listv")
 
